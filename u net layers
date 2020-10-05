@@ -65,3 +65,13 @@ outputs = tf.keras.layers.Conv2D(1, (1, 1), activation='sigmoid')(c9)
 model = tf.keras.Model(inputs=[inputs], outputs=[outputs])
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 model.summary()
+
+unet_model=get_unet()
+from keras.callbacks import TensorBoard
+tbCallBack = TensorBoard(log_dir='./log', histogram_freq=1,
+                         write_graph=True,
+                         write_grads=True,
+                         batch_size=8,
+                         write_images=True)
+h=unet_model.fit(train_data,train_label,batch_size=8,epochs=50,validation_split=0.2)
+
