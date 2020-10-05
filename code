@@ -1,0 +1,97 @@
+import numpy as np 
+import os 
+import cv2
+import tensorflow as tf
+from tensorflow import keras as k
+from tensorflow.keras import layers
+import   matplotlib.pyplot as plt
+from keras.models import Model, load_model
+from keras.layers import Input
+from keras.layers.core import Dropout, Lambda
+from keras.layers.convolutional import Conv2D, Conv2DTranspose,Convolution2D
+from keras.layers.pooling import MaxPooling2D
+from keras.layers.merge import concatenate
+from keras import backend as K
+
+#taking testdata and train data
+files.upload() 
+os.getcwd()
+
+train_data=np.load('train_img.npy')
+train_label=np.load('train_mask.npy')
+
+data_train=[]
+
+data_train_label=[]
+
+data_test=[]
+data_test_label=[]
+data_val=[]
+data_val_label=[]
+def reading_data():
+
+#loading training data
+  for f in os.listdir("train"):                         
+    a=cv2.imread(os.getcwd()+'/train/'+f,0)
+    a=cv2.resize(a,(256,256),interpolation = cv2.INTER_AREA)
+    a=np.expand_dims(a,axis=2)
+    #a=cv2.resize(a,(572,572),interpolation = cv2.INTER_AREA)
+    data_train.append(a)
+  print('done train')
+  
+  #loading training_labels data
+  for f in os.listdir("train_labels"):                
+    a=cv2.imread(os.getcwd()+'/train_labels/'+f,0)
+    a=a/255
+    a=cv2.resize(a,(256,256),interpolation = cv2.INTER_AREA)
+    a=np.expand_dims(a,axis=2)
+    #a=cv2.resize(a,(388,388),interpolation = cv2.INTER_AREA)
+    data_train_label.append(a)
+  print('done train')
+  
+   #loading test data
+  for f in os.listdir("test"):                        
+    a=cv2.imread(os.getcwd()+'/test/'+f,1)
+    a=cv2.resize(a,(256,256),interpolation = cv2.INTER_AREA)
+#     a=np.expand_dims(a,axis=2)
+    
+    data_test.append(a)
+  print('done train')
+  
+  #loading test labels data
+  for f in os.listdir("test_gt"):                         
+    a=cv2.imread(os.getcwd()+'/test_gt/'+f,0)
+    a=a/255
+    a=cv2.resize(a,(256,256),interpolation = cv2.INTER_AREA)
+    a=np.expand_dims(a,axis=2)
+    
+    data_test_label.append(a)
+  print('done train')
+  
+  #loading training data
+  for f in os.listdir("val"):                         
+    a=cv2.imread(os.getcwd()+'/val/'+f,0)
+    a=np.expand_dims(a,axis=2)
+   # a=cv2.resize(a,(572,572),interpolation = cv2.INTER_AREA)
+    data_val.append(a)
+  print('done train')
+  
+   #loading training data
+  for f in os.listdir("val_labels"):                        
+    a=cv2.imread(os.getcwd()+'/val_labels/'+f,0)
+    a=a/255
+    a=np.expand_dims(a,axis=2)
+  # a=cv2.resize(a,(388,388),interpolation = cv2.INTER_AREA)
+    data_val_label.append(a)
+reading_data()
+data_train=np.asarray(data_train)
+data_train_label=np.asarray(data_train_label)
+data_test=np.asarray(data_test)
+data_test_label=np.asarray(data_test_label)
+data_val=np.asarray(data_val)
+data_val_label=np.asarray(data_val_label)
+
+
+
+
+
